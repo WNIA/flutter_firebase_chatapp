@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testing_app/LoginPage.dart';
-//import 'package:testing_app/SignUpPage.dart';
+import 'package:testing_app/ui/LoginPage.dart';
 import 'package:overlay_support/overlay_support.dart';
+
 
 void main() {
   // runApp(MyApp());
@@ -10,6 +10,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

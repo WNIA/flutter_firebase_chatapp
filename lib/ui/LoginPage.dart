@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:testing_app/SignUpPage.dart';
+import 'package:testing_app/auth/login_auth.dart';
+import 'package:testing_app/ui/SignUpPage.dart';
+import 'package:testing_app/func/customCalendar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 
 class LoginPage extends StatelessWidget {
   @override
@@ -19,9 +20,14 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _LoginPageState extends State<SignInScreen> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  LoginRequest loginRequest = new LoginRequest();
+
+  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState(){
@@ -75,10 +81,10 @@ class _LoginPageState extends State<SignInScreen> {
                 imageAtTop(),
                 welcomeText(),
                 subText1(),
-                nameField(nameController),
+                mailField(mailController),
                 passwordField(passwordController),
                 forgotPasswordButton(),
-                submitButton(nameController, passwordController),
+                submitButton(context, globalFormKey, loginRequest),
                 subText2(),
                 fgButton(),
                 signupPage(context),
@@ -86,7 +92,8 @@ class _LoginPageState extends State<SignInScreen> {
             )));
   }
 }
-Widget imageAtTop(){
+
+Widget imageAtTop() {
   return new Container(
       alignment: Alignment.topCenter,
       padding: EdgeInsets.only(top: 40),
@@ -94,39 +101,37 @@ Widget imageAtTop(){
         image: AssetImage('assets/butterfly.jpg'),
         height: 100,
         width: 100,
-      )
-  );
+      ));
 }
-Widget welcomeText(){
+
+Widget welcomeText() {
   return new Container(
       alignment: Alignment.center,
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0.0),
       child: Text(
         'Welcome!',
         style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 30),
+            color: Colors.black, fontWeight: FontWeight.w500, fontSize: 30),
       ));
 }
-Widget subText1(){
+
+Widget subText1() {
   return new Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.fromLTRB(10,10,10,0),
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: Text(
         'Log in to your existing account',
-        style: TextStyle(
-            color: Colors.grey[500],
-            fontSize: 15
-        ),
+        style: TextStyle(color: Colors.grey[500], fontSize: 15),
       ));
 }
-Widget nameField(nameController){
-  return new  Container(
-    padding: EdgeInsets.fromLTRB(10,10,10,0),
+
+Widget mailField(mailController) {
+  return new Container(
+    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
     // height: 50,
-    child: TextField(
-      controller: nameController,
+    child: TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      controller: mailController,
       decoration: InputDecoration(
         /*border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40.0),
@@ -137,33 +142,36 @@ Widget nameField(nameController){
     ),
   );
 }
-Widget passwordField(passwordController){
+
+Widget passwordField(passwordController) {
   return new Container(
-    padding: EdgeInsets.fromLTRB(10,10,10,0),
+    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
     // height: 50,
-    child: TextField(
+    child: TextFormField(
+      keyboardType: TextInputType.text,
       obscureText: true,
       controller: passwordController,
       decoration: InputDecoration(
-        /*border: OutlineInputBorder(
+          /*border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40.0),
         ),*/
           labelText: 'Password',
-          prefixIcon: Icon(Icons.lock)
-      ),
+          prefixIcon: Icon(Icons.lock)),
     ),
   );
 }
-Widget forgotPasswordButton(){
+
+Widget forgotPasswordButton() {
   return new FlatButton(
-    onPressed: (){
+    onPressed: () {
       //forgot password screen
     },
     textColor: Colors.black,
     child: Text('Forgot Password?'),
   );
 }
-Widget submitButton(nameController, passwordController){
+
+Widget submitButton(context, globalFormKey, loginRequest) {
   return new Container(
       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: SizedBox(
@@ -177,36 +185,41 @@ Widget submitButton(nameController, passwordController){
             color: Colors.pink,
             child: Text('Login'),
             onPressed: () {
-              //print(nameController.text);
-              //print(passwordController.text);
+              if (validateAndSave(globalFormKey)) {
+                print(loginRequest.toJson());
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => customCalendar()),
+              );
             },
           )));
 }
-Widget subText2(){
+
+Widget subText2() {
   return new Container(
     alignment: Alignment.center,
     padding: EdgeInsets.only(top: 10),
     child: Text(
       'Or connect using',
-      style: TextStyle(
-          color: Colors.grey[500]
-      ),
+      style: TextStyle(color: Colors.grey[500]),
     ),
   );
 }
-Widget fgButton(){
+
+Widget fgButton() {
   return new Container(
     child: Row(
       children: <Widget>[
         FlatButton(
-          onPressed: (){},
+          onPressed: () {},
           textColor: Colors.white,
           color: Colors.blue[700],
           child: Text('Facebook'),
         ),
         SizedBox(width: 5),
         FlatButton(
-          onPressed: (){},
+          onPressed: () {},
           textColor: Colors.white,
           color: Colors.red,
           child: Text('Google'),
@@ -216,26 +229,37 @@ Widget fgButton(){
     ),
   );
 }
-Widget signupPage(context){
-  return new  Container(
+
+Widget signupPage(context) {
+  return new Container(
       child: Row(
-        children: <Widget>[
-          Text('Don\'t have an account?'),
-          FlatButton(
-            textColor: Colors.blue,
-            child: Text(
-              'Sign Up',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SignUpPage()),
-              );
-            },
-          )
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-      ));
+    children: <Widget>[
+      Text('Don\'t have an account?'),
+      FlatButton(
+        textColor: Colors.blue,
+        child: Text(
+          'Sign Up',
+          style: TextStyle(fontSize: 15),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignUpPage()),
+          );
+        },
+      )
+    ],
+    mainAxisAlignment: MainAxisAlignment.center,
+  ));
+}
+
+bool validateAndSave(globalFormKey) {
+  final form = globalFormKey.currentState;
+  if (form.validate()) {
+    form.save();
+    return true;
+  }
+  return false;
 }
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {

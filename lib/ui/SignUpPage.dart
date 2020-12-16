@@ -1,6 +1,6 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
-import 'package:testing_app/LoginPage.dart';
+import 'package:testing_app/ui/LoginPage.dart';
 
 
 class SignUpPage extends StatelessWidget {
@@ -165,7 +165,7 @@ Widget submitButton(){
             ),
             textColor: Colors.white,
             color: Colors.pink,
-            child: Text('Login'),
+            child: Text('Signup'),
             onPressed: () {
               //print(nameController.text);
               //print(passwordController.text);
