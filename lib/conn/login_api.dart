@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:testing_app/auth/login_auth.dart';
 
+// ignore: camel_case_types
 class login_api {
   Future<LoginResponse> login(LoginRequest logreq) async {
     String url = "https://reqres.in/api/login";
