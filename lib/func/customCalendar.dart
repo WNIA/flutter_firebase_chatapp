@@ -46,6 +46,12 @@ class customCalendarState extends State<customCalendarPage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF7E57C2),
+        splashColor: Color(0xFF4527A0),
+        child: Icon(Icons.add),
+        onPressed: _addEvents,
+      ),
     );
   }
 }
@@ -54,7 +60,14 @@ Widget _calendar(_calendarController) {
   return new Container(
       child: TableCalendar(
           calendarController: _calendarController,
-          calendarStyle: CalendarStyle()
+          calendarStyle: CalendarStyle(
+            selectedColor: Color(0xFF000000),
+            todayColor: Color(0xFF7E57C2)
+          )
       )
   );
+}
+
+_addEvents() async {
+  
 }
