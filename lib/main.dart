@@ -5,7 +5,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   // runApp(MyApp());
-  runApp(OverlaySupport(child: MyApp()));
+  runApp(OverlaySupport(child: MyApp()));//to enable overlay support
 }
 
 class MyApp extends StatelessWidget {

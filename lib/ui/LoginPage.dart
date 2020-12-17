@@ -24,18 +24,18 @@ class _LoginPageState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
 
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-  LoginRequest loginRequest = new LoginRequest();
+  // LoginRequest loginRequest = new LoginRequest();
 
-  GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  // GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+  // final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState(){
+  void initState(){   //for firebase notification
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
         // _showItemDialog(message);
-        showOverlayNotification((context) {
+        showOverlayNotification((context) {  //overlay support used because on message doesn't work
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: SafeArea(
@@ -84,7 +84,7 @@ class _LoginPageState extends State<SignInScreen> {
                 mailField(mailController),
                 passwordField(passwordController),
                 forgotPasswordButton(),
-                submitButton(context, globalFormKey, loginRequest),
+                submitButton(context),
                 subText2(),
                 fgButton(),
                 signupPage(context),
@@ -171,7 +171,7 @@ Widget forgotPasswordButton() {
   );
 }
 
-Widget submitButton(context, globalFormKey, loginRequest) {
+Widget submitButton(context) {
   return new Container(
       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: SizedBox(
@@ -185,9 +185,9 @@ Widget submitButton(context, globalFormKey, loginRequest) {
             color: Colors.pink,
             child: Text('Login'),
             onPressed: () {
-              if (validateAndSave(globalFormKey)) {
-                print(loginRequest.toJson());
-              }
+              // if (validateAndSave(globalFormKey)) {
+              //   print(loginRequest.toJson());
+              // }
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => customCalendar()),
@@ -253,14 +253,14 @@ Widget signupPage(context) {
   ));
 }
 
-bool validateAndSave(globalFormKey) {
-  final form = globalFormKey.currentState;
-  if (form.validate()) {
-    form.save();
-    return true;
-  }
-  return false;
-}
+// bool validateAndSave(globalFormKey) {
+//   final form = globalFormKey.currentState;
+//   if (form.validate()) {
+//     form.save();
+//     return true;
+//   }
+//   return false;
+// }
 
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
   if (message.containsKey('data')) {
