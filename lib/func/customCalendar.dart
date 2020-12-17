@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 // ignore: camel_case_types
 class customCalendar extends StatelessWidget {
@@ -21,23 +21,27 @@ class customCalendarPage extends StatefulWidget {
 // ignore: camel_case_types
 class customCalendarState extends State<customCalendarPage> {
   CalendarController _calendarController;
-  TextEditingController _eventController;
-  Map<DateTime, List<dynamic>> _events;
-  List<dynamic> _selectedEvents;
+  TextEditingController _eventController = TextEditingController();
+  Map<DateTime, List<dynamic>> _events = {};
+  List<dynamic> _selectedEvents = [];
+  // final selectedDay = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     _calendarController = CalendarController();
-    _eventController = TextEditingController();
-    _events = {};
-    _selectedEvents = [];
   }
 
   @override
   void dispose() {
     _calendarController.dispose();
     super.dispose();
+  }
+
+  void _ondayselected(DateTime day, List events, List holidays) {
+    setState(() {
+      _selectedEvents = events;
+    });
   }
 
   @override
@@ -52,8 +56,8 @@ class customCalendarState extends State<customCalendarPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _calendar(_calendarController, _events),
-            _eventbox(),
+            _calendar(),
+            ..._selectedEvents.map((event) => ListTile(title: Text(event),))
           ],
         ),
       ),
@@ -66,70 +70,65 @@ class customCalendarState extends State<customCalendarPage> {
     );
   }
 
+  Widget _calendar() {
+    return new Container(
+      child: TableCalendar(
+        events: _events,
+        calendarController: _calendarController,
+        calendarStyle: CalendarStyle(
+          selectedColor: Color(0xFF7E57C2),
+          todayColor: Colors.deepOrange,
+        ),
+        daysOfWeekStyle: DaysOfWeekStyle(
+            weekendStyle: TextStyle(fontWeight: FontWeight.bold),
+            weekdayStyle: TextStyle(fontWeight: FontWeight.bold)),
+        headerStyle: HeaderStyle(
+          formatButtonShowsNext: false,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        onDaySelected: _ondayselected,
+      ),
+    );
+  }
+
+  Widget disPlay(){
+
+  }
   _addEvents() async {
-    showDialog(
+    await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-                content: TextField(controller: _eventController),
-                actions: <Widget>[
-                  FlatButton(
-                    onPressed: (){
-                      if(_eventController.text.isEmpty) return;
-                      setState(() {
-                        if(_events[_calendarController.selectedDay] != null) {
-                          _events[_calendarController.selectedDay].add(_eventController.text);
-                        }
-                        else{
-                          _events[_calendarController.selectedDay] = [_eventController.text];
-                        }
-                        _eventController.clear();
-                        Navigator.pop(context);
-                      });
-                    },
-                    child: Text('Save'),
-                  ),
-                ]));
+          content: TextField(
+            controller: _eventController,
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Save"),
+              onPressed: () {
+                if (_eventController.text.isEmpty) return;
+                if (_events[_calendarController.selectedDay] != null) {
+                  _events[_calendarController.selectedDay]
+                      .add(_eventController.text);
+                } else {
+                  _events[_calendarController.selectedDay] = [
+                    _eventController.text
+                  ];
+                }
+                _eventController.clear();
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ));
+    setState(() {
+      _selectedEvents = _events[_calendarController.selectedDay];
+    });
   }
+
 }
 
-Widget _calendar(_calendarController, _events) {
-  return new Container(
-      child: TableCalendar(
-    events: _events,
-    calendarController: _calendarController,
-    calendarStyle: CalendarStyle(
-      selectedColor: Color(0xFF000000),
-      todayColor: Color(0xFF7E57C2),
-    ),
-    daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle(fontWeight: FontWeight.bold),
-        weekdayStyle: TextStyle(fontWeight: FontWeight.bold)),
-    headerStyle: HeaderStyle(
-      formatButtonShowsNext: false,
-      titleTextStyle: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      ),
-    ),
-  ));
-}
 
-Widget _eventbox() {
-  return Container();
-}
 
-Map<String, dynamic> encodeMap(Map<DateTime, dynamic> map) {
-  Map<String, dynamic> newMap = {};
-  map.forEach((key, value) {
-    newMap[key.toString()] = map[key];
-  });
-  return newMap;
-}
-
-Map<DateTime, dynamic> decodeMap(Map<String, dynamic> map) {
-  Map<DateTime, dynamic> newMap = {};
-  map.forEach((key, value) {
-    newMap[DateTime.parse(key)] = map[key];
-  });
-  return newMap;
-}
