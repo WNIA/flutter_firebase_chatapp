@@ -60,7 +60,7 @@ class _LoginPageState extends State<SignInScreen> {
           );
         }, duration: Duration(milliseconds: 4000));
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
+      onBackgroundMessage: myBackgroundMessageHandler, //myBackgroundMessageHandler added at the end of the file
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         // _navigateToItemDetail(message);
