@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+
 // ignore: camel_case_types
 class customCalendar extends StatelessWidget {
   @override
@@ -56,18 +57,24 @@ class customCalendarState extends State<customCalendarPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _calendar(),
+            calendar(),
             SizedBox(height: 10),
-            ..._selectedEvents.map((event) => Card(
-                elevation: 0.0,
-                child: InkWell(
-                  onTap: (){
-                    InkRipple.splashFactory;
-                  },
-                child: ListTile(
+            ..._selectedEvents.map((event) => ListTile(
                   title: Text(event,
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                ))))
+                ))
+            // Card(
+            // elevation: 0.0,
+            // child: InkWell(
+            //     onTap: () {
+            //       InkRipple.splashFactory;
+            //
+            //     },
+            //     child:
+            //     ListTile(
+            //       title: Text(event,
+            //           style: TextStyle(fontWeight: FontWeight.bold)),
+            //     ))))
           ],
         ),
       ),
@@ -76,11 +83,12 @@ class customCalendarState extends State<customCalendarPage> {
         splashColor: Color(0xFF4527A0),
         child: Icon(Icons.add),
         onPressed: _addEvents,
+        // onPressed: Navigator.push(context, MaterialPageRoute(builder: (context) => AddEventPage())),
       ),
     );
   }
 
-  Widget _calendar() {
+  Widget calendar() {
     return new Container(
       child: TableCalendar(
         events: _events,
@@ -104,12 +112,19 @@ class customCalendarState extends State<customCalendarPage> {
     );
   }
 
+  // _addEvents() async {
+  //   await Navigator.push(context, MaterialPageRoute(builder: (context) => AddEvent()));
+  //   setState(() {});
+  // }
   _addEvents() async {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              content: TextField(
+              title: Text('Add an event'),
+              content: TextFormField(
                 controller: _eventController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(labelText: 'title'),
               ),
               actions: <Widget>[
                 FlatButton(
