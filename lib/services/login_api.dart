@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:testing_app/auth/login_auth.dart';
+import 'package:testing_app/conn/login_auth.dart';
 
 // ignore: camel_case_types
 class login_api {

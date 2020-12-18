@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:testing_app/ui/SignUpPage.dart';
-import 'package:testing_app/func/customCalendar.dart';
+import 'file:///D:/AndroidStudioProjects/testing_app/lib/ui/customCalendar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginPage extends StatelessWidget {
@@ -23,18 +23,21 @@ class _LoginPageState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
 
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
   // LoginRequest loginRequest = new LoginRequest();
 
   // GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   // final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState(){   //for firebase notification
+  void initState() {
+    //for firebase notification
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
         // _showItemDialog(message);
-        showOverlayNotification((context) {  //overlay support used because on message doesn't work
+        showOverlayNotification((
+            context) { //overlay support used because on message doesn't work
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: SafeArea(
@@ -80,8 +83,8 @@ class _LoginPageState extends State<SignInScreen> {
                 imageAtTop(),
                 welcomeText(),
                 subText1(),
-                mailField(mailController),
-                passwordField(passwordController),
+                mailField(),
+                passwordField(),
                 forgotPasswordButton(),
                 submitButton(context),
                 subText2(),
@@ -90,167 +93,167 @@ class _LoginPageState extends State<SignInScreen> {
               ],
             )));
   }
-}
 
-Widget imageAtTop() {
-  return new Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.only(top: 40),
-      child: Image(
-        image: AssetImage('assets/butterfly.jpg'),
-        height: 100,
-        width: 100,
-      ));
-}
 
-Widget welcomeText() {
-  return new Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 0.0),
-      child: Text(
-        'Welcome!',
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.w500, fontSize: 30),
-      ));
-}
+  Widget imageAtTop() {
+    return new Container(
+        alignment: Alignment.topCenter,
+        padding: EdgeInsets.only(top: 40),
+        child: Image(
+          image: AssetImage('assets/butterfly.jpg'),
+          height: 100,
+          width: 100,
+        ));
+  }
 
-Widget subText1() {
-  return new Container(
-      alignment: Alignment.center,
+  Widget welcomeText() {
+    return new Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0.0),
+        child: Text(
+          'Welcome!',
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.w500, fontSize: 30),
+        ));
+  }
+
+  Widget subText1() {
+    return new Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        child: Text(
+          'Log in to your existing account',
+          style: TextStyle(color: Colors.grey[500], fontSize: 15),
+        ));
+  }
+
+  Widget mailField() {
+    return new Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      child: Text(
-        'Log in to your existing account',
-        style: TextStyle(color: Colors.grey[500], fontSize: 15),
-      ));
-}
-
-Widget mailField(mailController) {
-  return new Container(
-    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-    // height: 50,
-    child: TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      controller: mailController,
-      decoration: InputDecoration(
-        /*border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40.0),
-        ),*/
-        labelText: 'User Name',
-        prefixIcon: Icon(Icons.account_circle_rounded),
-      ),
-    ),
-  );
-}
-
-Widget passwordField(passwordController) {
-  return new Container(
-    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-    // height: 50,
-    child: TextFormField(
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      controller: passwordController,
-      decoration: InputDecoration(
+      // height: 50,
+      child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        controller: mailController,
+        decoration: InputDecoration(
           /*border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40.0),
         ),*/
-          labelText: 'Password',
-          prefixIcon: Icon(Icons.lock)),
-    ),
-  );
-}
-
-Widget forgotPasswordButton() {
-  return new FlatButton(
-    onPressed: () {
-      //forgot password screen
-    },
-    textColor: Colors.black,
-    child: Text('Forgot Password?'),
-  );
-}
-
-Widget submitButton(context) {
-  return new Container(
-      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-      child: SizedBox(
-          height: 50,
-          width: 100,
-          child: RaisedButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            textColor: Colors.white,
-            color: Colors.pink,
-            child: Text('Login'),
-            onPressed: () {
-              // if (validateAndSave(globalFormKey)) {
-              //   print(loginRequest.toJson());
-              // }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => customCalendar()),
-              );
-            },
-          )));
-}
-
-Widget subText2() {
-  return new Container(
-    alignment: Alignment.center,
-    padding: EdgeInsets.only(top: 10),
-    child: Text(
-      'Or connect using',
-      style: TextStyle(color: Colors.grey[500]),
-    ),
-  );
-}
-
-Widget fgButton() {
-  return new Container(
-    child: Row(
-      children: <Widget>[
-        FlatButton(
-          onPressed: () {},
-          textColor: Colors.white,
-          color: Colors.blue[700],
-          child: Text('Facebook'),
+          labelText: 'User Name',
+          prefixIcon: Icon(Icons.account_circle_rounded),
         ),
-        SizedBox(width: 5),
-        FlatButton(
-          onPressed: () {},
-          textColor: Colors.white,
-          color: Colors.red,
-          child: Text('Google'),
-        )
-      ],
-      mainAxisAlignment: MainAxisAlignment.center,
-    ),
-  );
-}
+      ),
+    );
+  }
 
-Widget signupPage(context) {
-  return new Container(
+  Widget passwordField() {
+    return new Container(
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      // height: 50,
+      child: TextFormField(
+        keyboardType: TextInputType.text,
+        obscureText: true,
+        controller: passwordController,
+        decoration: InputDecoration(
+          /*border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40.0),
+        ),*/
+            labelText: 'Password',
+            prefixIcon: Icon(Icons.lock)),
+      ),
+    );
+  }
+
+  Widget forgotPasswordButton() {
+    return new FlatButton(
+      onPressed: () {
+        //forgot password screen
+      },
+      textColor: Colors.black,
+      child: Text('Forgot Password?'),
+    );
+  }
+
+  Widget submitButton(context) {
+    return new Container(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        child: SizedBox(
+            height: 50,
+            width: 100,
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              textColor: Colors.white,
+              color: Colors.pink,
+              child: Text('Login'),
+              onPressed: () {
+                // if (validateAndSave(globalFormKey)) {
+                //   print(loginRequest.toJson());
+                // }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => customCalendar()),
+                );
+              },
+            )));
+  }
+
+  Widget subText2() {
+    return new Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(top: 10),
+      child: Text(
+        'Or connect using',
+        style: TextStyle(color: Colors.grey[500]),
+      ),
+    );
+  }
+
+  Widget fgButton() {
+    return new Container(
       child: Row(
-    children: <Widget>[
-      Text('Don\'t have an account?'),
-      FlatButton(
-        textColor: Colors.blue,
-        child: Text(
-          'Sign Up',
-          style: TextStyle(fontSize: 15),
-        ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignUpPage()),
-          );
-        },
-      )
-    ],
-    mainAxisAlignment: MainAxisAlignment.center,
-  ));
-}
+        children: <Widget>[
+          FlatButton(
+            onPressed: () {},
+            textColor: Colors.white,
+            color: Colors.blue[700],
+            child: Text('Facebook'),
+          ),
+          SizedBox(width: 5),
+          FlatButton(
+            onPressed: () {},
+            textColor: Colors.white,
+            color: Colors.red,
+            child: Text('Google'),
+          )
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    );
+  }
+
+  Widget signupPage(context) {
+    return new Container(
+        child: Row(
+          children: <Widget>[
+            Text('Don\'t have an account?'),
+            FlatButton(
+              textColor: Colors.blue,
+              child: Text(
+                'Sign Up',
+                style: TextStyle(fontSize: 15),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignUpPage()),
+                );
+              },
+            )
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ));
+  }
 
 // bool validateAndSave(globalFormKey) {
 //   final form = globalFormKey.currentState;
@@ -260,17 +263,18 @@ Widget signupPage(context) {
 //   }
 //   return false;
 // }
-
-Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
-  if (message.containsKey('data')) {
-    // Handle data message
-    final dynamic data = message['data'];
-  }
-
-  if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
-  }
-
-  // Or do other work.
 }
+  Future<dynamic> myBackgroundMessageHandler(
+      Map<String, dynamic> message) async {
+    if (message.containsKey('data')) {
+      // Handle data message
+      final dynamic data = message['data'];
+    }
+
+    if (message.containsKey('notification')) {
+      // Handle notification message
+      final dynamic notification = message['notification'];
+    }
+
+    // Or do other work.
+  }
