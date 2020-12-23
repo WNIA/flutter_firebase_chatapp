@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:testing_app/ui/SignUpPage.dart';
-import 'file:///D:/AndroidStudioProjects/testing_app/lib/ui/customCalendar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'SignUpPage.dart';
+import 'CustomCalendar.dart';
+// import 'customCalendar.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,11 +23,6 @@ class _LoginPageState extends State<SignInScreen> {
   TextEditingController passwordController = TextEditingController();
 
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-
-  // LoginRequest loginRequest = new LoginRequest();
-
-  // GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  // final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -60,7 +55,7 @@ class _LoginPageState extends State<SignInScreen> {
           );
         }, duration: Duration(milliseconds: 4000));
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
+      onBackgroundMessage: myBackgroundMessageHandler, //myBackgroundMessageHandler added at the end of the file
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         // _navigateToItemDetail(message);
@@ -86,10 +81,10 @@ class _LoginPageState extends State<SignInScreen> {
                 mailField(),
                 passwordField(),
                 forgotPasswordButton(),
-                submitButton(context),
+                submitButton(),
                 subText2(),
                 fgButton(),
-                signupPage(context),
+                signupPage(),
               ],
             )));
   }
@@ -135,9 +130,6 @@ class _LoginPageState extends State<SignInScreen> {
         keyboardType: TextInputType.emailAddress,
         controller: mailController,
         decoration: InputDecoration(
-          /*border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40.0),
-        ),*/
           labelText: 'User Name',
           prefixIcon: Icon(Icons.account_circle_rounded),
         ),
@@ -154,9 +146,6 @@ class _LoginPageState extends State<SignInScreen> {
         obscureText: true,
         controller: passwordController,
         decoration: InputDecoration(
-          /*border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40.0),
-        ),*/
             labelText: 'Password',
             prefixIcon: Icon(Icons.lock)),
       ),
@@ -173,7 +162,7 @@ class _LoginPageState extends State<SignInScreen> {
     );
   }
 
-  Widget submitButton(context) {
+  Widget submitButton() {
     return new Container(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: SizedBox(
@@ -192,7 +181,7 @@ class _LoginPageState extends State<SignInScreen> {
                 // }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => customCalendar()),
+                  MaterialPageRoute(builder: (context) => CustomCalendar()),
                 );
               },
             )));
@@ -232,7 +221,7 @@ class _LoginPageState extends State<SignInScreen> {
     );
   }
 
-  Widget signupPage(context) {
+  Widget signupPage() {
     return new Container(
         child: Row(
           children: <Widget>[
