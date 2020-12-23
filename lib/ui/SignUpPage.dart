@@ -1,6 +1,6 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
-import 'package:testing_app/ui/LoginPage.dart';
+import 'LoginPage.dart';
 
 
 class SignUpPage extends StatelessWidget {
