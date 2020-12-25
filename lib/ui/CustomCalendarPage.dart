@@ -16,7 +16,7 @@ class CustomCalendarPage extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarMain(context),
-      body: FutureBuilder<List<Events>>(
+      body: FutureBuilder<List<EventsModel>>(
         future: fetchEvents(http.Client()),
         builder: (context, snapshot) {
           if (snapshot.hasError) print(snapshot.error);
@@ -29,21 +29,21 @@ class CustomCalendarPage extends State<CustomCalendar> {
     );
   }
 
-  Widget EventList(List<Events> events) {
+  Widget EventList(List<EventsModel> events) {
     return Container(
-      padding: EdgeInsets.all(10 ),
+      padding: const EdgeInsets.all(10 ),
       child: SfCalendar(
         view: CalendarView.month,
         showNavigationArrow: true,
         dataSource: MeetingDataSource(events),
         cellEndPadding: 0,
-        monthViewSettings: MonthViewSettings(appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+        monthViewSettings: const MonthViewSettings(appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
       ),
     );
   }
 }
 class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Events> events) {
+  MeetingDataSource(List<EventsModel> events) {
     appointments = events;
   }
 

@@ -1,4 +1,4 @@
-class Events {
+class EventsModel {
   final int userId;
   final int id;
   final String title;
@@ -6,10 +6,10 @@ class Events {
   final DateTime from;
   final DateTime to;
 
-  Events({this.userId, this.id, this.title, this.body, this.from, this.to});
+  EventsModel({this.userId, this.id, this.title, this.body, this.from, this.to});
 
-  factory Events.fromJson(Map<String, dynamic> json) {
-    return Events(
+  factory EventsModel.fromJson(Map<String, dynamic> json) {
+    return EventsModel(
       userId: json['userId'],
       id: json['id'],
       title: json['title'],

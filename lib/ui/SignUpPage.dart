@@ -23,8 +23,9 @@ class _SignUpPageState extends State<SignUpScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController confpasswordController = TextEditingController();
+
+  // TextEditingController phoneController = TextEditingController();
+  // TextEditingController confpasswordController = TextEditingController();
 
   // bool isValid = false;
 
@@ -34,18 +35,20 @@ class _SignUpPageState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+        appBar: appBarMain(context),
         body: Padding(
             padding: EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
-                text1('Let\'s get started!', Colors.black, FontWeight.w500, 30.0),
-                text1('Create an account', Colors.grey[500], FontWeight.normal, 20.0),
+                text1(
+                    'Let\'s get started!', Colors.black, FontWeight.w500, 30.0),
+                text1('Create an account', Colors.grey[500], FontWeight.normal,
+                    20.0),
                 nameField(),
                 emailField(),
-                pCField(countries, c),
+                // pCField(countries, c),
                 passwordField(),
-                confirmPassword(),
+                // confirmPassword(),
                 submitButton(context, CustomCalendar(), 'Register'),
                 NavText(context, LoginPage(), 'Already have an account?',
                     'Sign in'),
@@ -79,13 +82,27 @@ class _SignUpPageState extends State<SignUpScreen> {
     );
   }
 
-  Widget pCField(country, code) {
+  Widget passwordField() {
+    return new Container(
+      padding: EdgeInsets.all(10),
+      child: TextField(
+        obscureText: true,
+        controller: passwordController,
+        decoration: InputDecoration(
+            //border: OutlineInputBorder(),
+            labelText: 'Password',
+            prefixIcon: Icon(Icons.lock)),
+      ),
+    );
+  }
+
+/*Widget pCField(country, code) {
     return new Container(
         // padding: EdgeInsets.all(10),
         child: Column(
       children: <Widget>[
         DropDownField(
-          controller: phoneController,
+          // controller: phoneController,
           hintText: 'select a country',
           enabled: true,
           items: country,
@@ -104,31 +121,17 @@ class _SignUpPageState extends State<SignUpScreen> {
     ));
   }
 
-  Widget passwordField() {
-    return new Container(
-      padding: EdgeInsets.all(10),
-      child: TextField(
-        obscureText: true,
-        controller: passwordController,
-        decoration: InputDecoration(
-            //border: OutlineInputBorder(),
-            labelText: 'Password',
-            prefixIcon: Icon(Icons.lock)),
-      ),
-    );
-  }
-
   Widget confirmPassword() {
     return new Container(
       padding: EdgeInsets.all(10),
       child: TextField(
         obscureText: true,
-        controller: confpasswordController,
+        // controller: confpasswordController,
         decoration: InputDecoration(
             //border: OutlineInputBorder(),
             labelText: 'Confirm Password',
             prefixIcon: Icon(Icons.lock)),
       ),
     );
-  }
+  }*/
 }
