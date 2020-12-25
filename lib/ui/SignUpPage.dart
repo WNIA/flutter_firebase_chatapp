@@ -1,5 +1,6 @@
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
+import 'package:testing_app/widgets/text_widget.dart';
 import 'package:testing_app/widgets/widget.dart';
 import 'CustomCalendarPage.dart';
 import 'LoginPage.dart';
@@ -33,12 +34,13 @@ class _SignUpPageState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: appBarMain(context),
         body: Padding(
             padding: EdgeInsets.all(10),
             child: ListView(
               children: <Widget>[
-                welcomeText(),
-                subText1(),
+                text1('Let\'s get started!', Colors.black, FontWeight.w500, 30.0),
+                text1('Create an account', Colors.grey[500], FontWeight.normal, 20.0),
                 nameField(),
                 emailField(),
                 pCField(countries, c),
@@ -49,27 +51,6 @@ class _SignUpPageState extends State<SignUpScreen> {
                     'Sign in'),
               ],
             )));
-  }
-
-  Widget welcomeText() {
-    return new Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.only(top: 40),
-        child: Text(
-          'Let\'s get started!',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.w500, fontSize: 30),
-        ));
-  }
-
-  Widget subText1() {
-    return new Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        child: Text(
-          'Create an account',
-          style: TextStyle(fontSize: 20, color: Colors.grey[500]),
-        ));
   }
 
   Widget nameField() {

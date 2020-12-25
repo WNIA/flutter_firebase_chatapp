@@ -10,7 +10,7 @@ Widget appBarMain(BuildContext context) {
 
 Widget submitButton(context, page, txt) {
   return new Container(
-      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: SizedBox(
           height: 50,
           width: 100,

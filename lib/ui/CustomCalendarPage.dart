@@ -31,6 +31,7 @@ class CustomCalendarPage extends State<CustomCalendar> {
 
   Widget EventList(List<Events> events) {
     return Container(
+      padding: EdgeInsets.all(10 ),
       child: SfCalendar(
         view: CalendarView.month,
         showNavigationArrow: true,

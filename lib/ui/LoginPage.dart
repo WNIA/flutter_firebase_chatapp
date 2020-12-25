@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:testing_app/widgets/text_widget.dart';
 import 'package:testing_app/widgets/widget.dart';
 import 'SignUpPage.dart';
 import 'CustomCalendarPage.dart';
@@ -71,17 +73,17 @@ class _LoginPageState extends State<LoginPage> {
 
   Padding buildPadding() {
     return Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
             imageAtTop(),
-            welcomeText(),
-            subText1(),
+            text1('Welcome!', Colors.black, FontWeight.w500, 30.0),
+            text1('Log in to your existing account', Colors.grey[500], FontWeight.normal, 15.0),
             mailField(),
             passwordField(),
             forgotPasswordButton(),
             submitButton(context, CustomCalendar(), 'Login'),
-            subText2(),
+            text1('Or connect using', Colors.grey[500], FontWeight.normal, 15.0),
             fgButton(),
             NavText(
                 context, SignUpPage(), 'Don\'t have an account?', 'Sign Up'),
@@ -92,32 +94,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget imageAtTop() {
     return new Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Image(
           image: AssetImage('assets/butterfly.jpg'),
           height: 100,
           width: 100,
-        ));
-  }
-
-  Widget welcomeText() {
-    return new Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0.0),
-        child: Text(
-          'Welcome!',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.w500, fontSize: 30),
-        ));
-  }
-
-  Widget subText1() {
-    return new Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        child: Text(
-          'Log in to your existing account',
-          style: TextStyle(color: Colors.grey[500], fontSize: 15),
         ));
   }
 
@@ -160,16 +141,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget subText2() {
-    return new Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 10),
-      child: Text(
-        'Or connect using',
-        style: TextStyle(color: Colors.grey[500]),
-      ),
-    );
-  }
 
   Widget fgButton() {
     return new Container(
