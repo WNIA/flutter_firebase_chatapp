@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:testing_app/model/events_model.dart';
+import 'package:testing_app/models/events_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:testing_app/services/events_api.dart';
+import 'package:testing_app/widgets/widget.dart';
 
 class CustomCalendar extends StatefulWidget {
   @override
@@ -14,11 +15,7 @@ class CustomCalendarPage extends State<CustomCalendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
+      appBar: appBarMain(context),
       body: FutureBuilder<List<Events>>(
         future: fetchEvents(http.Client()),
         builder: (context, snapshot) {

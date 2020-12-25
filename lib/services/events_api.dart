@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:testing_app/model/events_model.dart';
+import 'package:testing_app/models/events_model.dart';
 
 // String url = 'https://jsonplaceholder.typicode.com/posts';
 String url = 'https://wnia.github.io/event.json';

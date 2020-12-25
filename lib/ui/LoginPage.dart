@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:testing_app/widgets/widget.dart';
 import 'SignUpPage.dart';
-import 'CustomCalendar.dart';
-// import 'customCalendar.dart';
-class LoginPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SignInScreen(),
-    );
-  }
-}
+import 'CustomCalendarPage.dart';
 
-class SignInScreen extends StatefulWidget {
+
+class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<SignInScreen> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -31,8 +24,8 @@ class _LoginPageState extends State<SignInScreen> {
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
         // _showItemDialog(message);
-        showOverlayNotification((
-            context) { //overlay support used because on message doesn't work
+        showOverlayNotification((context) {
+          //overlay support used because on message doesn't work
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 4),
             child: SafeArea(
@@ -55,7 +48,8 @@ class _LoginPageState extends State<SignInScreen> {
           );
         }, duration: Duration(milliseconds: 4000));
       },
-      onBackgroundMessage: myBackgroundMessageHandler, //myBackgroundMessageHandler added at the end of the file
+      onBackgroundMessage: myBackgroundMessageHandler,
+      //myBackgroundMessageHandler added at the end of the file
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         // _navigateToItemDetail(message);
@@ -70,30 +64,35 @@ class _LoginPageState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              children: <Widget>[
-                imageAtTop(),
-                welcomeText(),
-                subText1(),
-                mailField(),
-                passwordField(),
-                forgotPasswordButton(),
-                submitButton(),
-                subText2(),
-                fgButton(),
-                signupPage(),
-              ],
-            )));
+      appBar: appBarMain(context),
+      body: buildPadding(),
+    );
   }
 
+  Padding buildPadding() {
+    return Padding(
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          children: <Widget>[
+            imageAtTop(),
+            welcomeText(),
+            subText1(),
+            mailField(),
+            passwordField(),
+            forgotPasswordButton(),
+            submitButton(context, CustomCalendar(), 'Login'),
+            subText2(),
+            fgButton(),
+            NavText(
+                context, SignUpPage(), 'Don\'t have an account?', 'Sign Up'),
+          ],
+        ));
+  }
 
   Widget imageAtTop() {
     return new Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.only(top: 40),
+        padding: EdgeInsets.only(top: 10),
         child: Image(
           image: AssetImage('assets/butterfly.jpg'),
           height: 100,
@@ -126,7 +125,7 @@ class _LoginPageState extends State<SignInScreen> {
     return new Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       // height: 50,
-      child: TextFormField(
+      child: TextField(
         keyboardType: TextInputType.emailAddress,
         controller: mailController,
         decoration: InputDecoration(
@@ -141,13 +140,12 @@ class _LoginPageState extends State<SignInScreen> {
     return new Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
       // height: 50,
-      child: TextFormField(
+      child: TextField(
         keyboardType: TextInputType.text,
         obscureText: true,
         controller: passwordController,
         decoration: InputDecoration(
-            labelText: 'Password',
-            prefixIcon: Icon(Icons.lock)),
+            labelText: 'Password', prefixIcon: Icon(Icons.lock)),
       ),
     );
   }
@@ -160,31 +158,6 @@ class _LoginPageState extends State<SignInScreen> {
       textColor: Colors.black,
       child: Text('Forgot Password?'),
     );
-  }
-
-  Widget submitButton() {
-    return new Container(
-        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-        child: SizedBox(
-            height: 50,
-            width: 100,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              textColor: Colors.white,
-              color: Colors.pink,
-              child: Text('Login'),
-              onPressed: () {
-                // if (validateAndSave(globalFormKey)) {
-                //   print(loginRequest.toJson());
-                // }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CustomCalendar()),
-                );
-              },
-            )));
   }
 
   Widget subText2() {
@@ -220,50 +193,17 @@ class _LoginPageState extends State<SignInScreen> {
       ),
     );
   }
-
-  Widget signupPage() {
-    return new Container(
-        child: Row(
-          children: <Widget>[
-            Text('Don\'t have an account?'),
-            FlatButton(
-              textColor: Colors.blue,
-              child: Text(
-                'Sign Up',
-                style: TextStyle(fontSize: 15),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignUpPage()),
-                );
-              },
-            )
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-        ));
-  }
-
-// bool validateAndSave(globalFormKey) {
-//   final form = globalFormKey.currentState;
-//   if (form.validate()) {
-//     form.save();
-//     return true;
-//   }
-//   return false;
-// }
 }
-  Future<dynamic> myBackgroundMessageHandler(
-      Map<String, dynamic> message) async {
-    if (message.containsKey('data')) {
-      // Handle data message
-      final dynamic data = message['data'];
-    }
-
-    if (message.containsKey('notification')) {
-      // Handle notification message
-      final dynamic notification = message['notification'];
-    }
-
-    // Or do other work.
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
   }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+
+  // Or do other work.
+}
