@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:testing_app/ui/LoginPage.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
-void main() {
+void main() async{
   // runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(OverlaySupport(child: MyApp()));//to enable overlay support
 }
 
