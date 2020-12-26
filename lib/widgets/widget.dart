@@ -8,7 +8,7 @@ Widget appBarMain(BuildContext context) {
   );
 }
 
-Widget submitButton(context, page, txt) {
+Widget submitButton(context, pressMethod, txt) {
   return new Container(
       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: SizedBox(
@@ -21,19 +21,11 @@ Widget submitButton(context, page, txt) {
             textColor: Colors.white,
             color: Colors.pink,
             child: Text(txt),
-            onPressed: () {
-              // if (validateAndSave(globalFormKey)) {
-              //   print(loginRequest.toJson());
-              // }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => page),
-              );
-            },
+            onPressed: pressMethod,
           )));
 }
 
-Widget NavText(context, page, sentence, text) {
+Widget navText(context, page, sentence, text) {
   return new Container(
       child: Row(
         children: <Widget>[

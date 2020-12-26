@@ -62,6 +62,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  loginMethod(){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CustomCalendar()),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,10 +87,10 @@ class _LoginPageState extends State<LoginPage> {
             mailField(),
             passwordField(),
             forgotPasswordButton(),
-            submitButton(context, CustomCalendar(), 'Login'),
+            submitButton(context, loginMethod, 'Login'),
             text1('Or connect using', Colors.grey[500], FontWeight.normal, 15.0),
             fgButton(),
-            NavText(
+            navText(
                 context, SignUpPage(), 'Don\'t have an account?', 'Sign Up'),
           ],
         ));
@@ -103,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget mailField() {
     return new Container(
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       // height: 50,
       child: TextField(
         keyboardType: TextInputType.emailAddress,
@@ -118,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget passwordField() {
     return new Container(
-      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       // height: 50,
       child: TextField(
         keyboardType: TextInputType.text,

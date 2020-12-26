@@ -21,7 +21,7 @@ class CustomCalendarPage extends State<CustomCalendar> {
         builder: (context, snapshot) {
           if (snapshot.hasError) print(snapshot.error);
           return snapshot.hasData
-              ? EventList(snapshot.data)
+              ? eventList(snapshot.data)
               : Center(child: CircularProgressIndicator());
         },
       ),
@@ -29,7 +29,7 @@ class CustomCalendarPage extends State<CustomCalendar> {
     );
   }
 
-  Widget EventList(List<EventsModel> events) {
+  Widget eventList(List<EventsModel> events) {
     return Container(
       padding: const EdgeInsets.all(10 ),
       child: SfCalendar(
