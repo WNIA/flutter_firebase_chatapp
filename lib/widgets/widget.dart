@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:testing_app/helper/authenticate.dart';
+import 'package:testing_app/services/firebase_auth.dart';
 
 Widget appBarMain(BuildContext context) {
   return AppBar(
     elevation: 0.0,
     backgroundColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.black),
+  );
+}
+
+Widget appBarExit(BuildContext context) {
+  AuthMethods authMethods = new AuthMethods();
+  return AppBar(
+    elevation: 0.0,
+    backgroundColor: Colors.white,
+    iconTheme: IconThemeData(color: Colors.black),
+    actions: [
+      GestureDetector(
+        onTap: () {
+          authMethods.signOut();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authenticate()));
+        },
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Icon(Icons.exit_to_app)),
+      )
+    ],
   );
 }
 
@@ -28,22 +50,24 @@ Widget submitButton(context, pressMethod, txt) {
 Widget navText(context, page, sentence, text) {
   return new Container(
       child: Row(
-        children: <Widget>[
-          Text(sentence),
-          FlatButton(
-            textColor: Colors.blue,
-            child: Text(
-              text,
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => page),
-              );
-            },
-          )
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-      ));
+    children: <Widget>[
+      Text(sentence),
+      FlatButton(
+        textColor: Colors.blue,
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 15),
+        ),
+        onPressed: page,
+        // onPressed: () {
+        //
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => page),
+        //   );
+        // },
+      )
+    ],
+    mainAxisAlignment: MainAxisAlignment.center,
+  ));
 }

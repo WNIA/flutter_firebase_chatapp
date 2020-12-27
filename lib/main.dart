@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testing_app/ui/LoginPage.dart';
+import 'package:testing_app/helper/authenticate.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: Authenticate(),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

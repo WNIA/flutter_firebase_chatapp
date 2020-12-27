@@ -4,13 +4,15 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:testing_app/widgets/text_widget.dart';
 import 'package:testing_app/widgets/widget.dart';
-import 'SignUpPage.dart';
 import 'CustomCalendarPage.dart';
 
 
 class LoginPage extends StatefulWidget {
+  final Function toggle;
   @override
   _LoginPageState createState() => _LoginPageState();
+
+  LoginPage(this.toggle);
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -91,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
             text1('Or connect using', Colors.grey[500], FontWeight.normal, 15.0),
             fgButton(),
             navText(
-                context, SignUpPage(), 'Don\'t have an account?', 'Sign Up'),
+                context, widget.toggle, 'Don\'t have an account?', 'Sign Up'),
           ],
         ));
   }

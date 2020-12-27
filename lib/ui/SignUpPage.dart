@@ -9,8 +9,11 @@ import 'ChatRoomsPage.dart';
 import 'LoginPage.dart';
 
 class SignUpPage extends StatefulWidget {
+  final Function toggle;
   @override
   _SignUpPageState createState() => _SignUpPageState();
+
+  SignUpPage(this.toggle);
 }
 
 class _SignUpPageState extends State<SignUpPage> {
@@ -60,7 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     submitButton(context, signUpMethod, 'Register'),
-                    navText(context, LoginPage(), 'Already have an account?',
+                    navText(context, widget.toggle, 'Already have an account?',
                         'Sign in'),
                   ],
                 )));
