@@ -24,7 +24,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  TextEditingController phoneController = TextEditingController();
+  // TextEditingController phoneController = TextEditingController();
 
   // TextEditingController confpasswordController = TextEditingController();
 
@@ -66,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 )));
   }
 
-  signUpMethod() {
+  signUpMethod() async{
     if (formKey.currentState.validate()) {
       setState(() {
         isLoading = true;
@@ -77,8 +77,9 @@ class _SignUpPageState extends State<SignUpPage> {
               emailController.text, passwordController.text)
           .then((val) {
         print("$val.uid");
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatRoom()));
       });
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatRoom()));
+
     }
   }
 
@@ -86,12 +87,12 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        controller: nameController,
         validator: (val) {
           return val.isEmpty || val.length < 3
               ? "Needs 4 Characters or more"
               : null;
         },
-        controller: nameController,
         decoration: InputDecoration(
             //   border: OutlineInputBorder(),
             labelText: 'User Name',
@@ -104,6 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        controller: emailController,
         validator: (val) {
           return RegExp(
                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -111,7 +113,6 @@ class _SignUpPageState extends State<SignUpPage> {
               ? null
               : "Enter valid email";
         },
-        controller: emailController,
         decoration: InputDecoration(
             // border: OutlineInputBorder(),
             labelText: 'Email',
@@ -124,11 +125,11 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        obscureText: true,
+        controller: passwordController,
         validator: (val) {
           return val.length < 6 ? "Enter Password 6+ characters" : null;
         },
-        obscureText: true,
-        controller: passwordController,
         decoration: InputDecoration(
             labelText: 'Password', prefixIcon: Icon(Icons.lock)),
       ),

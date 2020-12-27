@@ -34,6 +34,7 @@ dependencies:
   firebase_core: ^0.5.3
   overlay_support: ^1.0.5
   http: ^0.12.2
+#  provider: ^4.3.2+3
   syncfusion_flutter_calendar: ^18.4.31
   cloud_firestore: ^0.14.4
 
