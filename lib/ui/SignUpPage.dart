@@ -1,5 +1,6 @@
 // import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
+import 'package:testing_app/services/database.dart';
 import 'package:testing_app/services/firebase_auth.dart';
 import 'package:testing_app/widgets/text_widget.dart';
 import 'package:testing_app/widgets/widget.dart';
@@ -20,6 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isLoading = false;
 
   AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods db = new DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
 
@@ -79,7 +81,14 @@ class _SignUpPageState extends State<SignUpPage> {
           .signUpWithEmailAndPassword(
               emailController.text, passwordController.text)
           .then((val) {
-        print("$val.uid");
+        // print("$val.uid");
+
+        Map<String, String> userInfoMap = {
+          "name": nameController.text,
+          "email": emailController.text
+        };
+        db.uploadUserInfo(userInfoMap);
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatRoom()));
       });
 

@@ -16,16 +16,20 @@ class CustomCalendarPage extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarMain(context),
-      body: FutureBuilder<List<EventsModel>>(
-        future: fetchEvents(http.Client()),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? eventList(snapshot.data)
-              : Center(child: CircularProgressIndicator());
-        },
-      ),
+      body: buildFutureBuilder(),
       // body: CustomCalendarPage(),
+    );
+  }
+
+  FutureBuilder<List<EventsModel>> buildFutureBuilder() {
+    return FutureBuilder<List<EventsModel>>(
+      future: fetchEvents(http.Client()),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) print(snapshot.error);
+        return snapshot.hasData
+            ? eventList(snapshot.data)
+            : Center(child: CircularProgressIndicator());
+      },
     );
   }
 

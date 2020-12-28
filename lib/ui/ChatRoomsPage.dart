@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testing_app/services/firebase_auth.dart';
+import 'package:testing_app/ui/SearchPage.dart';
 import 'package:testing_app/widgets/widget.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -8,12 +8,17 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  AuthMethods authMethods = new AuthMethods();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarExit(context),
-
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.search),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+        },
+      ),
     );
   }
 }
