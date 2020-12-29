@@ -7,7 +7,6 @@ import 'package:testing_app/widgets/widget.dart';
 
 // import 'CustomCalendarPage.dart';
 import 'ChatRoomsPage.dart';
-import 'LoginPage.dart';
 
 class SignUpPage extends StatefulWidget {
   final Function toggle;
