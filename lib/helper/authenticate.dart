@@ -3,6 +3,7 @@ import 'package:testing_app/ui/LoginPage.dart';
 import 'package:testing_app/ui/SignUpPage.dart';
 
 class Authenticate extends StatefulWidget {
+  static final routeName ="/";
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }

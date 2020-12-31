@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:testing_app/helper/helperfunctions.dart';
+import 'package:testing_app/services/database.dart';
+import 'package:testing_app/services/firebase_auth.dart';
 import 'package:testing_app/widgets/text_widget.dart';
 import 'package:testing_app/widgets/widget.dart';
 import 'CustomCalendarPage.dart';
 
-
 class LoginPage extends StatefulWidget {
   final Function toggle;
+
   @override
   _LoginPageState createState() => _LoginPageState();
 
@@ -16,10 +20,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController mailController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
+  AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods db = new DatabaseMethods();
+
+  final formKey = GlobalKey<FormState>();
+  QuerySnapshot snapshotUserInfo;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -38,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
                     size: const Size(40, 40),
                     child: ClipOval(
                         child: Container(
-                          color: Colors.black,
-                        ))),
+                      color: Colors.black,
+                    ))),
                 title: Text(message['notification']['title']),
                 subtitle: Text(message['notification']['body']),
                 trailing: IconButton(
@@ -64,12 +75,32 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  loginMethod(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CustomCalendar()),
-    );
+  loginMethod() {
+    if (formKey.currentState.validate()) {
+      HelperFunctions.saveUserEmailSharedPref(emailController.text);
+      setState(() {
+        isLoading = true;
+      });
+      db.getUserByUserEmail(emailController.text).then((val) {
+        snapshotUserInfo = val;
+        HelperFunctions.saveUserEmailSharedPref(
+            snapshotUserInfo.docs[0].data()["email"]);
+        HelperFunctions.saveUserNameSharedPref(
+            snapshotUserInfo.docs[0].data()["name"]);
+      });
+      authMethods
+          .signInWithEmailAndPassword(
+              emailController.text, passwordController.text)
+          .then((value) {
+        if (value != null) {
+          HelperFunctions.saveUserLoggedInSharedPref(true);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => CustomCalendar()));
+        }
+      });
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,12 +116,16 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             imageAtTop(),
             text1('Welcome!', Colors.black, FontWeight.w500, 30.0),
-            text1('Log in to your existing account', Colors.grey[500], FontWeight.normal, 15.0),
-            mailField(),
-            passwordField(),
+            text1('Log in to your existing account', Colors.grey[500],
+                FontWeight.normal, 15.0),
+            Form(
+              key: formKey,
+              child: Column(children: [mailField(), passwordField()]),
+            ),
             forgotPasswordButton(),
             submitButton(context, loginMethod, 'Login'),
-            text1('Or connect using', Colors.grey[500], FontWeight.normal, 15.0),
+            text1(
+                'Or connect using', Colors.grey[500], FontWeight.normal, 15.0),
             fgButton(),
             navText(
                 context, widget.toggle, 'Don\'t have an account?', 'Sign Up'),
@@ -113,9 +148,16 @@ class _LoginPageState extends State<LoginPage> {
     return new Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       // height: 50,
-      child: TextField(
+      child: TextFormField(
         keyboardType: TextInputType.emailAddress,
-        controller: mailController,
+        controller: emailController,
+        validator: (val) {
+          return RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(val)
+              ? null
+              : "Enter valid email";
+        },
         decoration: InputDecoration(
           labelText: 'User Name',
           prefixIcon: Icon(Icons.account_circle_rounded),
@@ -128,10 +170,13 @@ class _LoginPageState extends State<LoginPage> {
     return new Container(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       // height: 50,
-      child: TextField(
+      child: TextFormField(
         keyboardType: TextInputType.text,
         obscureText: true,
         controller: passwordController,
+        validator: (val) {
+          return val.length < 6 ? "Needs 6+ characters" : null;
+        },
         decoration: InputDecoration(
             labelText: 'Password', prefixIcon: Icon(Icons.lock)),
       ),
@@ -147,7 +192,6 @@ class _LoginPageState extends State<LoginPage> {
       child: Text('Forgot Password?'),
     );
   }
-
 
   Widget fgButton() {
     return new Container(
@@ -172,6 +216,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
   if (message.containsKey('data')) {
     // Handle data message

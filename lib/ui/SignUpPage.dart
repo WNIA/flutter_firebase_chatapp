@@ -1,5 +1,6 @@
 // import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
+import 'package:testing_app/helper/helperfunctions.dart';
 import 'package:testing_app/services/database.dart';
 import 'package:testing_app/services/firebase_auth.dart';
 import 'package:testing_app/widgets/text_widget.dart';
@@ -72,6 +73,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
   signUpMethod() async{
     if (formKey.currentState.validate()) {
+      Map<String, String> userInfoMap = {
+        "name": nameController.text,
+        "email": emailController.text
+      };
+     HelperFunctions.saveUserNameSharedPref(nameController.text);
+     HelperFunctions.saveUserEmailSharedPref(emailController.text);
       setState(() {
         isLoading = true;
       });
@@ -82,12 +89,9 @@ class _SignUpPageState extends State<SignUpPage> {
           .then((val) {
         // print("$val.uid");
 
-        Map<String, String> userInfoMap = {
-          "name": nameController.text,
-          "email": emailController.text
-        };
-        db.uploadUserInfo(userInfoMap);
 
+        db.uploadUserInfo(userInfoMap);
+        HelperFunctions.saveUserLoggedInSharedPref(true);
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatRoom()));
       });
 
@@ -98,6 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        keyboardType: TextInputType.name,
         controller: nameController,
         validator: (val) {
           return val.isEmpty || val.length < 3
@@ -116,6 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
         controller: emailController,
         validator: (val) {
           return RegExp(
@@ -136,6 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        keyboardType: TextInputType.text,
         obscureText: true,
         controller: passwordController,
         validator: (val) {
@@ -176,6 +183,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return new Container(
       padding: const EdgeInsets.all(10),
       child: TextField(
+      keyboardType: TextInputType.text,
         obscureText: true,
         // controller: confpasswordController,
         decoration: InputDecoration(

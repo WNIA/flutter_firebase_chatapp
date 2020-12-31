@@ -9,7 +9,11 @@ String url = 'https://wnia.github.io/event.json';
 
 Future<List<EventsModel>> fetchEvents(http.Client client) async {
   final response = await client.get(url);
-  return compute(parseEvents, response.body);
+  if(response.statusCode == 200) {
+    return compute(parseEvents, response.body);
+  } else{
+    throw Exception('Unable to fetch Data from rest api');
+  }
 }
 
 List<EventsModel> parseEvents(String responseBody) {
