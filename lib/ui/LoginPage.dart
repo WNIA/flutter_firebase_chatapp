@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
               : "Enter valid email";
         },
         decoration: InputDecoration(
-          labelText: 'User Name',
+          labelText: 'Email Address',
           prefixIcon: Icon(Icons.account_circle_rounded),
         ),
       ),

@@ -28,6 +28,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   createChatRoomStartConversation({String username}) {
+    print('${Constants.myName}');
     if(username != Constants.myName) {
       String chatRoomID = getChatRoomID(username, Constants.myName);
       List<String> users = [username, Constants.myName];

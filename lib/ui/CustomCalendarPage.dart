@@ -22,6 +22,9 @@ class CustomCalendarPage extends State<CustomCalendar> {
   getUserInfo() async {
     Constants.myName = await HelperFunctions.getUserNameSharedPref();
     // Constants.myEmail = await HelperFunctions.getUserEmailSharedPref();
+    setState(() {
+
+    });
   }
   @override
   Widget build(BuildContext context) {

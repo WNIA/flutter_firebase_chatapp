@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testing_app/helper/authenticate.dart';
+import 'package:testing_app/helper/helperfunctions.dart';
 import 'package:testing_app/services/firebase_auth.dart';
 
 Widget appBarMain(BuildContext context) {
@@ -20,6 +21,7 @@ Widget appBarExit(BuildContext context) {
       GestureDetector(
         onTap: () {
           authMethods.signOut();
+          HelperFunctions.saveUserLoggedInSharedPref(false);
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authenticate()));
         },
         child: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testing_app/widgets/widget.dart';
 
 class ConversationPage extends StatefulWidget {
   @override
@@ -8,6 +9,15 @@ class ConversationPage extends StatefulWidget {
 class _ConversationPageState extends State<ConversationPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: appBarMain(context),
+      body: Container(
+        child: Stack(
+          children: [
+            
+          ],
+        ),
+      ),
+    );
   }
 }

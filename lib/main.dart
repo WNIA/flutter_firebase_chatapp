@@ -20,11 +20,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool userLoggedIn;
+  bool userLoggedIn = false;
 
   @override
   void initState() {
-    // TODO: implement initState
+    getLoggedInState();
     super.initState();
   }
 
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
-        home: userLoggedIn != null ? (userLoggedIn ? CustomCalendar() : Authenticate()) :Authenticate()
+        home: userLoggedIn ? CustomCalendar() : Authenticate()
 
         //home: MyHomePage(title: 'Flutter Demo Home Page'),
         );
