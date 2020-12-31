@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
       };
       dbm.createChatRoom(chatRoomID, chatRoomMap);
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ConversationPage()));
+          context, MaterialPageRoute(builder: (context) => ConversationPage(chatRoomID)));
     }else{
       print("That's your account");
     }

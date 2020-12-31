@@ -1,5 +1,6 @@
 // import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
+import 'package:testing_app/helper/authenticate.dart';
 import 'package:testing_app/helper/helperfunctions.dart';
 import 'package:testing_app/services/database.dart';
 import 'package:testing_app/services/firebase_auth.dart';
@@ -91,8 +92,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
 
         db.uploadUserInfo(userInfoMap);
-        HelperFunctions.saveUserLoggedInSharedPref(true);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ChatRoom()));
+        // HelperFunctions.saveUserLoggedInSharedPref(true);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authenticate()));
       });
 
     }
