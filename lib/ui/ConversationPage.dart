@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:testing_app/helper/constants.dart';
 import 'package:testing_app/services/database.dart';
@@ -49,10 +50,18 @@ class _ConversationPageState extends State<ConversationPage> {
 
   Widget messageTile(String message, bool isSentByMe) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
       width: MediaQuery.of(context).size.width,
       alignment: isSentByMe ? Alignment.centerRight : Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
-      child: Text(message),
+      padding: EdgeInsets.only(left: isSentByMe ? 45 : 15, right: isSentByMe ? 15 : 45),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        child: Text(message, style: TextStyle(color: Colors.white, fontSize: 15),),
+        decoration: BoxDecoration(
+          color: isSentByMe ? Color(0xff00bcd4) : Color(0xff90a4ae),
+          borderRadius: BorderRadius.circular(10)
+        ),
+      ),
     );
   }
 
@@ -69,7 +78,7 @@ class _ConversationPageState extends State<ConversationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: chatAppBar(context, widget.chatRoomID),
       body: Container(
         child: Stack(
           children: [

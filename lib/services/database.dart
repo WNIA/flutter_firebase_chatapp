@@ -49,8 +49,15 @@ class DatabaseMethods {
     return await FirebaseFirestore.instance
         .collection("ChatRoom")
         .doc(chatRoomID)
-        .collection("chats").orderBy("time", descending: true)
+        .collection("chats")
+        .orderBy("time")
         .snapshots();
   }
 
+  getChatRooms(String userName) async {
+    return await FirebaseFirestore.instance
+        .collection("ChatRoom")
+        .where("users", arrayContains: userName)
+        .snapshots();
+  }
 }

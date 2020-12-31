@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testing_app/helper/authenticate.dart';
+import 'package:testing_app/helper/constants.dart';
 import 'package:testing_app/helper/helperfunctions.dart';
 import 'package:testing_app/services/firebase_auth.dart';
 
@@ -16,6 +17,7 @@ Widget appBarExit(BuildContext context) {
   return AppBar(
     elevation: 0.0,
     backgroundColor: Colors.white,
+      title: Text(Constants.myName, style: TextStyle(color: Colors.blueGrey)),
     iconTheme: IconThemeData(color: Colors.black),
     actions: [
       GestureDetector(
@@ -29,6 +31,15 @@ Widget appBarExit(BuildContext context) {
             child: Icon(Icons.exit_to_app)),
       )
     ],
+  );
+}
+
+Widget chatAppBar(BuildContext context, String chatRoomName) {
+  return AppBar(
+    elevation: 0.0,
+    backgroundColor: Colors.white,
+    iconTheme: IconThemeData(color: Colors.black),
+    title: Text(chatRoomName, style: TextStyle(color: Colors.blueGrey),),
   );
 }
 
