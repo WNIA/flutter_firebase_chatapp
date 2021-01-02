@@ -4,10 +4,11 @@ import 'package:testing_app/helper/constants.dart';
 import 'package:testing_app/helper/helperfunctions.dart';
 import 'package:testing_app/services/firebase_auth.dart';
 
-Widget appBarMain(BuildContext context) {
+Widget appBarMain(BuildContext context, String title) {
   return AppBar(
     elevation: 0.0,
     backgroundColor: Colors.white,
+    title: Center(child: Text(title, style: TextStyle(color: Colors.black),)),
     iconTheme: IconThemeData(color: Colors.black),
   );
 }

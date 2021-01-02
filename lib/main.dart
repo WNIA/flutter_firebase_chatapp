@@ -47,8 +47,7 @@ class _MyAppState extends State<MyApp> {
         ),
         debugShowCheckedModeBanner: false,
         home: userLoggedIn ? CustomCalendar() : Authenticate()
-
-        //home: MyHomePage(title: 'Flutter Demo Home Page'),
+        // home: VideoPlayList(),
         );
   }
 }
