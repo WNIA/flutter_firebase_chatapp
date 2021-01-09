@@ -4,6 +4,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:testing_app/helper/helperfunctions.dart';
 import 'package:testing_app/ui/CustomCalendarPage.dart';
+import 'package:testing_app/ui/VideoPlayListPage.dart';
 
 void main() async {
   // runApp(MyApp());
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
     await HelperFunctions.getUserLoggedInSharedPref().then((value) {
       setState(() {
         userLoggedIn = value;
+        print(value);
       });
     });
   }
@@ -46,7 +48,8 @@ class _MyAppState extends State<MyApp> {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
-        home: userLoggedIn ? CustomCalendar() : Authenticate()
+        // home: userLoggedIn ? CustomCalendar() : Authenticate()
+      home: userLoggedIn == null ? Authenticate() : (userLoggedIn ? CustomCalendar() : Authenticate()),
         // home: VideoPlayList(),
         );
   }
